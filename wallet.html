@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom Wallet Integration</title>
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    <script src="https://unpkg.com/@solana/wallet-adapter-wallets@latest/lib/index.iife.min.js"></script>
+    <script src="https://unpkg.com/@solana/wallet-adapter-react-ui@latest/lib/index.iife.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module">
+        import { Connection, PublicKey, Transaction } from '@solana/web3.js';
+        import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+        import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
+        import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+
+        const network = WalletAdapterNetwork.MainnetBeta;
+        const endpoint = Connection.defaultClusterApiUrl(network);
+        const connection = new Connection(endpoint);
+
+        const wallets = [getPhantomWallet()];
+
+        function App() {
+            return (
+                <WalletModalProvider wallets={wallets}>
+                    <WalletMultiButton />
+                </WalletModalProvider>
+            );
+        }
+
+        const root = document.getElementById('root');
+        root.innerHTML = App();
+    </script>
+</body>
+</html>
